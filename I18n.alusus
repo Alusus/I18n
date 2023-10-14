@@ -1,4 +1,5 @@
 module I18n {
+    use Srl;
     def strings: Map[String, String];
 
     func initialize(buf: CharsPtr) {
