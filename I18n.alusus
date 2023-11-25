@@ -1,63 +1,14 @@
+import "Srl/String";
+import "Srl/Array";
+import "Srl/refs";
+import "Spp";
+import "Core/Basic";
+import "Core/Data";
+
 module I18n {
     use Srl;
-    def strings: Map[String, String];
-
-    func initialize(buf: CharsPtr) {
-        strings.clear();
-        strings = parsePo(buf);
-    }
-
-    func string(val: CharsPtr): String {
-        def input: String(val);
-        def res: String = strings(input);
-        if res == "" return input else return res;
-    }
-
-    func parsePo(buf: CharsPtr): Map[String, String] {
-        def result: Map[String, String];
-        def lastId: String;
-        def isMsgid: Bool = false;
-        def isMsgstr: Bool = false;
-        while buf~cnt(0) != 0 {
-            if String.compare(buf, "msgid", 5) == 0 {
-                buf += 5;
-                lastId = parseString(buf);
-            } else if String.compare(buf, "msgstr", 6) == 0 {
-                buf += 6;
-                result(lastId) = parseString(buf);
-            } else if buf~cnt(0) == '#' {
-                while buf~cnt(0) != '\n' buf += 1;
-            } else {
-                buf += 1;
-            }
-        }
-        return result;
-    }
-
-    func parseString(buf: ref[CharsPtr]): String {
-        def result: String;
-        def len: ArchInt = 0;
-        while true {
-            while buf~cnt(0) == ' ' or buf~cnt(0) == '\n' buf += 1;
-            if buf~cnt(0) == '"' {
-                buf += 1;
-                def end: CharsPtr = String.find(buf, '\n')~cast[CharsPtr];
-                while end~cnt(0) != '"' end -= 1;
-                result.realloc(len + end~cast[ArchInt] - buf~cast[ArchInt]);
-                while buf~cast[ArchInt] < end~cast[ArchInt] {
-                    if buf~cnt(0) == '\\' {
-                        buf += 1;
-                        if buf~cnt(0) == 'n' result.buf~cnt(len++) = '\n'
-                        else result.buf~cnt(len++) = buf~cnt(0);
-                    } else result.buf~cnt(len++) = buf~cnt(0);
-                    buf += 1;
-                }
-                result.buf~cnt(len) = 0;
-                buf += 1;
-            } else {
-                break;
-            }
-        }
-        return result;
-    }
 }
+
+import "I18n/strings";
+import "I18n/TextAssets";
+import "I18n/isRightToLeft";

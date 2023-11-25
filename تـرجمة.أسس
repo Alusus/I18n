@@ -2,7 +2,17 @@
 
 عرف تـرجمة: لقب I18n؛
 @دمج وحدة تـرجمة {
-    عرف هيئ: لقب initialize؛
+    عرف هيئ_النصوص: لقب initializeStrings؛
     عرف أعرب_القاموس: لقب parsePo؛
     عرف نص: لقب string؛
+    عرف هل_اللغة_يمينية: لقب isRightToLeft؛
+
+    عرف مـوارد_نصية: لقب TextAssets؛
+    @دمج صنف مـوارد_نصية {
+        عرف هيئ: لقب initialize؛
+        عرف هات_اللغات_المتوفرة: لقب getAvailableLanguages؛
+        عرف حدد_اللغة_الحالية: لقب setCurrentLanguage؛
+        عرف الحالي: لقب current؛
+        عرف اللغة_الحالية: لقب currentLanguage؛
+    }
 }

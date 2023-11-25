@@ -1,0 +1,22 @@
+@merge module I18n {
+    func isRightToLeft(languageCode: String): Bool {
+        @shared def rtlLanguages: Array[String]({
+            String("ar"),
+            String("arc"),
+            String("dv"),
+            String("fa"),
+            String("ha"),
+            String("he"),
+            String("kh"),
+            String("ks"),
+            String("ku"),
+            String("ps"),
+            String("ur"),
+            String("yi")
+        });
+        languageCode = languageCode.split("_")(0);
+        def i: Int;
+        for i = 0, i < rtlLanguages.getLength(), ++i if rtlLanguages(i) == languageCode return true;
+        return false;
+    }
+}

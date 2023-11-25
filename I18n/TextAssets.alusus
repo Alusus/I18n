@@ -1,0 +1,82 @@
+@merge module I18n {
+    class TextAssets [path: string, defaultLangCode: string] {
+        @shared def data: Map[String, SrdRef[this_type]];
+        @shared def current: SrdRef[this_type];
+        @shared def currentLanguage: String;
+
+        handler this~init() {}
+
+        def AstTemplateMap: alias Map[String, ref[Core.Basic.TiObject]];
+
+        // Define member variables.
+        preprocess {
+            def filenames: ptr[Fs.FileNames] = Fs.readDir(String(path) + "/" + defaultLangCode);
+            def i: Int;
+            for i = 0, i < filenames~cnt.count, ++i {
+                if filenames~cnt.names(i)(0) == '.' continue; // Skip . and .. and hidden files.
+                def name: String = String(filenames~cnt.names(i)~ptr).split(".")(0);
+                Spp.astMgr.insertAst(
+                    (ast def name: String),
+                    AstTemplateMap().set(String("name"), Core.Basic.TiStr(name))
+                );
+            }
+        }
+
+        func initialize() {
+            def d: SrdRef[this_type];
+
+            // Populate the map for all available locales.
+            preprocess {
+                def dirs: ptr[Fs.FileNames] = Fs.readDir(path);
+                def i: Int;
+                for i = 0, i < dirs~cnt.count, ++i {
+                    if dirs~cnt.names(i)(0) == '.' continue; // Skip . and .. and hidden files.
+                    Spp.astMgr.insertAst(ast d = SrdRef[this_type].construct());
+
+                    def filenames: ptr[Fs.FileNames] = Fs.readDir(String(path) + "/" + dirs~cnt.names(i)~ptr);
+                    def j: Int;
+                    for j = 0, j < filenames~cnt.count, ++j {
+                        if filenames~cnt.names(j)(0) == '.' continue; // Skip . and .. and hidden files.
+                        def content: String = Fs.readFile(
+                            String(path) + "/" + dirs~cnt.names(i)~ptr + "/" + filenames~cnt.names(j)~ptr
+                        );
+                        def varName: String = String(filenames~cnt.names(j)~ptr).split(".")(0);
+                        Spp.astMgr.insertAst(
+                            (ast d.varName = varData),
+                            AstTemplateMap()
+                                .set(String("varName"), Core.Data.Ast.Identifier(varName))
+                                .set(String("varData"), Core.Data.Ast.StringLiteral(content))
+                        );
+                    }
+
+                    Spp.astMgr.insertAst(
+                        (ast data.set(String(lang), d)),
+                        AstTemplateMap().set(String("lang"), Core.Basic.TiStr(String(dirs~cnt.names(i)~ptr)))
+                    );
+                }
+            }
+
+            setCurrentLanguage(String(defaultLangCode));
+        }
+
+        func getAvailableLanguages(): Array[String] {
+            def langs: Array[String] = data.keys;
+            // Bring the default language to the front.
+            def i: Int;
+            for i = 0, i < langs.getLength(), ++i {
+                if langs(i) == defaultLangCode {
+                    langs.remove(i);
+                    langs.insert(0, String(defaultLangCode));
+                    break;
+                }
+            }
+            return langs;
+        }
+
+        func setCurrentLanguage(langCode: String) {
+            if data(langCode).isNull() langCode = defaultLangCode;
+            current = data(langCode);
+            currentLanguage = langCode;
+        }
+    }
+}
