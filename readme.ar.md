@@ -21,18 +21,33 @@ import "Apm";
 Apm.importFile("Alusus/I18n");
 ```
 
-* هيئ المكتبة من ملف PO:
+* هيئ المكتبة:
 
 <div dir=rtl>
 
 ```
-تـرجمة.هيئ_النصوص(محتوى_po)؛
+تـرجمة.هيئ_النصوص()؛
 ```
 
 </div>
 
 ```
-I18n.initializeStrings(poContent);
+I18n.initializeStrings();
+```
+
+
+* اضف ملف ليتم استخدامه في الترجمة:
+
+<div dir=rtl>
+
+```
+تـرجمة.اضف_النصوص(محتوى_po)؛
+```
+
+</div>
+
+```
+I18n.addStrings(poContent);
 ```
 
 أو
@@ -40,13 +55,13 @@ I18n.initializeStrings(poContent);
 <div dir=rtl>
 
 ```
-تـرجمة.هيئ_النصوص(مـتم.نـم.اقرأ_ملف("en.po"))؛
+تـرجمة.اضف_النصوص(مـتم.نـم.اقرأ_ملف("en.po"))؛
 ```
 
 </div>
 
 ```
-I18n.initializeStrings(Srl.Fs.readFile("lang.po"));
+I18n.addStrings(Srl.Fs.readFile("lang.po"));
 ```
 
 * استبدل سلاسل المحارف المضمنة بالدالة `تـرجمة.نص`:
@@ -156,4 +171,5 @@ Console.print("%s\n", I18n.string("string example"));
 ```
 func getAvailableLanguages(): Array[String];
 ```
+
 
