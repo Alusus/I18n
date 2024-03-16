@@ -1,9 +1,12 @@
 @merge module I18n {
     def strings: Map[String, String];
 
-    func initializeStrings(buf: CharsPtr) {
+    func addStrings(buf: CharsPtr) {
+        parsePo(buf);
+    }
+    
+    func initializeStrings() {
         strings.clear();
-        strings = parsePo(buf);
     }
 
     func string(val: CharsPtr): String {
@@ -12,25 +15,23 @@
         if res == "" return input else return res;
     }
 
-    func parsePo(buf: CharsPtr): Map[String, String] {
-        def result: Map[String, String];
+    func parsePo(buf: CharsPtr) {
+        
         def lastId: String;
-        def isMsgid: Bool = false;
-        def isMsgstr: Bool = false;
         while buf~cnt(0) != 0 {
             if String.compare(buf, "msgid", 5) == 0 {
                 buf += 5;
                 lastId = parseString(buf);
             } else if String.compare(buf, "msgstr", 6) == 0 {
                 buf += 6;
-                result(lastId) = parseString(buf);
+                strings(lastId) = parseString(buf);
             } else if buf~cnt(0) == '#' {
                 while buf~cnt(0) != '\n' buf += 1;
             } else {
                 buf += 1;
             }
         }
-        return result;
+       
     }
 
     func parseString(buf: ref[CharsPtr]): String {

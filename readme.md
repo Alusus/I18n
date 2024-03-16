@@ -13,16 +13,22 @@ import "Apm";
 Apm.importFile("Alusus/I18n");
 ```
 
-* Initialize the library from PO file:
+* Initialize the library :
 
 ```
-I18n.initializeStrings(poContent);
+I18n.initializeStrings();
+```
+
+* Add a file to be used in translation:
+
+```
+I18n.addStrings(poContent);
 ```
 
 or
 
 ```
-I18n.initializeStrings(Srl.Fs.readFile("lang.po"));
+I18n.addStrings(Srl.Fs.readFile("lang.po"));
 ```
 
 * Replace the hardcoded strings with `I18n.string`:
@@ -100,4 +106,5 @@ returned array.
 ```
 func getAvailableLanguages(): Array[String];
 ```
+
 
