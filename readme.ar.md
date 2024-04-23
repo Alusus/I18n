@@ -21,19 +21,35 @@ import "Apm";
 Apm.importFile("Alusus/I18n");
 ```
 
-* هيئ المكتبة:
+* هيئ المكتبة من ملف PO:
 
 <div dir=rtl>
 
 ```
-تـرجمة.هيئ_النصوص()؛
+تـرجمة.هيئ_النصوص(محتوى_po)؛
 ```
 
 </div>
 
 ```
-I18n.initializeStrings();
+I18n.initializeStrings(poContent);
 ```
+
+أو
+
+<div dir=rtl>
+
+```
+تـرجمة.هيئ_النصوص(مـتم.نـم.اقرأ_ملف("en.po"))؛
+```
+
+</div>
+
+```
+I18n.initializeStrings(Srl.Fs.readFile("lang.po"));
+```
+
+
 
 
 * اضف ملف ليتم استخدامه في الترجمة:
@@ -41,7 +57,7 @@ I18n.initializeStrings();
 <div dir=rtl>
 
 ```
-تـرجمة.اضف_النصوص(محتوى_po)؛
+تـرجمة.اضف_نصوصاً(محتوى_po)؛
 ```
 
 </div>
@@ -55,7 +71,7 @@ I18n.addStrings(poContent);
 <div dir=rtl>
 
 ```
-تـرجمة.اضف_النصوص(مـتم.نـم.اقرأ_ملف("en.po"))؛
+تـرجمة.اضف_نصوصاً(مـتم.نـم.اقرأ_ملف("en.po"))؛
 ```
 
 </div>

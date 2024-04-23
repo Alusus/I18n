@@ -1,12 +1,13 @@
 @merge module I18n {
     def strings: Map[String, String];
+    
+    func initializeStrings(buf: CharsPtr) {
+        strings.clear();
+        parsePo(buf);
+    }
 
     func addStrings(buf: CharsPtr) {
         parsePo(buf);
-    }
-    
-    func initializeStrings() {
-        strings.clear();
     }
 
     func string(val: CharsPtr): String {

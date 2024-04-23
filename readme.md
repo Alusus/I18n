@@ -13,10 +13,16 @@ import "Apm";
 Apm.importFile("Alusus/I18n");
 ```
 
-* Initialize the library :
+* Initialize the library from PO file:
 
 ```
-I18n.initializeStrings();
+I18n.initializeStrings(poContent);
+```
+
+or
+
+```
+I18n.initializeStrings(Srl.Fs.readFile("lang.po"));
 ```
 
 * Add a file to be used in translation:
