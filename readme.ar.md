@@ -1,3 +1,5 @@
+<div dir=rtl>
+
 # I18n
 [[English]](readme.md)
 
@@ -7,67 +9,95 @@
 
 * أضف المكتبة إلى المشروع باستخدام مدير حزم الأسس:
 
-<div dir=rtl>
-
 ```
 اشمل "مـحا"؛
 مـحا.اشمل_ملف("Alusus/I18n"، "تـرجمة.أسس")؛
 ```
 
-</div>
+<div dir=ltr>
 
 ```
 import "Apm";
 Apm.importFile("Alusus/I18n");
 ```
 
-* هيئ المكتبة من ملف PO:
+</div>
 
-<div dir=rtl>
+* هيئ المكتبة من ملف PO:
 
 ```
 تـرجمة.هيئ_النصوص(محتوى_po)؛
 ```
 
-</div>
+<div dir=ltr>
 
 ```
 I18n.initializeStrings(poContent);
 ```
 
+</div>
 أو
 
-<div dir=rtl>
 
 ```
 تـرجمة.هيئ_النصوص(مـتم.نـم.اقرأ_ملف("en.po"))؛
 ```
 
-</div>
+<div dir=ltr>
 
 ```
 I18n.initializeStrings(Srl.Fs.readFile("lang.po"));
 ```
 
-* استبدل سلاسل المحارف المضمنة بالدالة `تـرجمة.نص`:
+</div>
 
-<div dir=rtl>
+يمكن أيضًا تحميل النصوص من عدة ملفات PO باستخدام دالة `أضف_نصوصا` (`addStrings`):
+
+```
+تـرجمة.أضف_نصوصا(محتوى_po)؛
+```
+
+<div dir=ltr>
+
+```
+I18n.addStrings(poContent);
+```
+
+</div>
+
+أو
+
+```
+تـرجمة.أضف_نصوصا(مـتم.نـم.اقرأ_ملف("en.po"))؛
+```
+
+<div dir=ltr>
+
+```
+I18n.addStrings(Srl.Fs.readFile("lang.po"));
+```
+
+</div>
+
+يمكن استخدام دالة `clearStrings` لمحو كل النصوص المحملة.
+
+* استبدل سلاسل المحارف المضمنة بالدالة `تـرجمة.نص`:
 
 ```
 طـرفية.اطبع(تـرجمة.نص("نصي المترجم"))؛
 ```
 
-</div>
+<div dir=ltr>
 
 ```
 Console.print(I18n.string("My localized string"));
 ```
 
+</div>
+
 ## معرفة اتجاه اللغة
 
 لمعرفة اتجاه اللغة، اي معرفة إن كانت تكتب من اليمين أو اليسار، نستخدم دالة `هل_اللغة_يمينية` (`isRightToLeft`):
-
-<div dir=rtl>
 
 ```
 تـرجمة.هل_اللغة_يمينية(نـص("ar")) // ترجع 1
@@ -75,13 +105,15 @@ Console.print(I18n.string("My localized string"));
 تـرجمة.هل_اللغة_يمينية(نـص("en")) // ترجع 0
 ```
 
-</div>
+<div dir=ltr>
 
 ```
 I18n.isRightToLeft(String("ar")) // returns true
 I18n.isRightToLeft(String("ar_EG")) // returns true
 I18n.isRightToLeft(String("en")) // returns false
 ```
+
+</div>
 
 ## صنف مـوارد_نصية (TextAssets)
 
@@ -97,6 +129,8 @@ I18n.isRightToLeft(String("en")) // returns false
 
 على سبيل المثال، إذا كان لديك المجلد التالي:
 
+<div dir=ltr>
+
 ```
 assets/
   en/
@@ -109,13 +143,13 @@ assets/
     strings.po
 ```
 
+</div>
+
 فبعد تهيئة الصنف سيكون لديك صنف يحتوي على `تـطبيق` (`Map`) فيه مفتاحين: ar و en، ولكل مفتاح نموذج من
 الصنف. والصنف في هذه الحالة سيحتوي على ثلاثة متغيرات من صنف `نـص` (`String`) وهي: file1 و file2
 و strings.
 
 لتهيئة واستخدام الصنف:
-
-<div dir=rtl>
 
 ```
 تـرجمة.مـوارد_نصية["./الموارد_النصية"، "ar"].هيئ()؛
@@ -125,7 +159,7 @@ assets/
 طـرفية.اطبع("%s\ج"، تـرجمة.نص("مثال نصي"))؛
 ```
 
-</div>
+<div dir=ltr>
 
 ```
 I18n.TextAssets["./text_assets", "en"].initialize();
@@ -134,6 +168,8 @@ def strings: String = I18n.TextAssets["./text_assets", "en"].current.strings;
 I18n.initializeStrings(strings);
 Console.print("%s\n", I18n.string("string example"));
 ```
+
+</div>
 
 يمكن الوصول إلى رمز اللغة الحالية باستخدام المتغير `اللغة_الحالية` (`currentLanguage`). يفضل الاعتماد
 على هذا المتغير لأنه يضمن عدم استخدام لغة غير متوفرة ضمن الترجمات الحالية. مثلا، لو استدعيت دالة
@@ -145,15 +181,17 @@ Console.print("%s\n", I18n.string("string example"));
 ترجع هذه الدالة قائمة باللغات المتوفرة. يجب أن تُستدعى دالة `هيئ` (`initialize`) قبل استدعاء هذه
 الدالة. تحرص هذه الدالة على وضع اللغة المبدئية في مقدمة المصفوفة المرجعة.
 
-<div dir=rtl>
-
 ```
 دالة هات_اللغات_المتوفرة(): مـصفوفة[نـص]؛
 ```
 
-</div>
+<div dir=ltr>
 
 ```
 func getAvailableLanguages(): Array[String];
 ```
+
+</div>
+
+</div>
 
