@@ -25,7 +25,7 @@ or
 I18n.initializeStrings(Srl.Fs.readFile("lang.po"));
 ```
 
-* Add a file to be used in translation:
+You can also load additional strings from a separate PO file using `addStrings`:
 
 ```
 I18n.addStrings(poContent);
@@ -36,6 +36,8 @@ or
 ```
 I18n.addStrings(Srl.Fs.readFile("lang.po"));
 ```
+
+You can use the `clearStrings` function to clear all the loaded strings.
 
 * Replace the hardcoded strings with `I18n.string`:
 

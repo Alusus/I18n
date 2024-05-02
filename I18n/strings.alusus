@@ -1,6 +1,6 @@
 @merge module I18n {
     def strings: Map[String, String];
-    
+
     func initializeStrings(buf: CharsPtr) {
         strings.clear();
         parsePo(buf);
@@ -10,6 +10,10 @@
         parsePo(buf);
     }
 
+    func clearStrings() {
+        strings.clear();
+    }
+
     func string(val: CharsPtr): String {
         def input: String(val);
         def res: String = strings(input);
@@ -17,7 +21,6 @@
     }
 
     func parsePo(buf: CharsPtr) {
-        
         def lastId: String;
         while buf~cnt(0) != 0 {
             if String.compare(buf, "msgid", 5) == 0 {

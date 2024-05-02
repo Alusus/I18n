@@ -3,7 +3,8 @@
 عرف تـرجمة: لقب I18n؛
 @دمج وحدة تـرجمة {
     عرف هيئ_النصوص: لقب initializeStrings؛
-    عرف اضف_نصوصاً: لقب addStrings؛
+    عرف أضف_نصوصا: لقب addStrings؛
+    عرف امح_النصوص: لقب clearStrings؛
     عرف أعرب_القاموس: لقب parsePo؛
     عرف نص: لقب string؛
     عرف هل_اللغة_يمينية: لقب isRightToLeft؛
