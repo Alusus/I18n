@@ -45,7 +45,14 @@
             while buf~cnt(0) == ' ' or buf~cnt(0) == '\n' buf += 1;
             if buf~cnt(0) == '"' {
                 buf += 1;
-                def end: CharsPtr = String.find(buf, '\n')~cast[CharsPtr];
+                def endPtr : ArchInt = String.find(buf, '\n')~cast[ArchInt];
+                def end: CharsPtr;
+                if endPtr == 0 { 
+                    end= String.find(buf, '"')~cast[CharsPtr];
+                }
+                else {
+                    end = String.find(buf, '\n')~cast[CharsPtr];
+                }
                 while end~cnt(0) != '"' end -= 1;
                 result.realloc(len + end~cast[ArchInt] - buf~cast[ArchInt]);
                 while buf~cast[ArchInt] < end~cast[ArchInt] {
