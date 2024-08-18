@@ -42,7 +42,7 @@
         def result: String;
         def len: ArchInt = 0;
         while true {
-            while buf~cnt(0) == ' ' or buf~cnt(0) == '\n' buf += 1;
+            while buf~cnt(0) == ' ' or buf~cnt(0) == '\n' or buf~cnt(0) == '\r' or buf~cnt(0) == '\t' buf += 1;
             if buf~cnt(0) == '"' {
                 buf += 1;
                 def end: CharsPtr = String.find(buf, '\n')~cast[CharsPtr];
@@ -57,12 +57,12 @@
                     } else result.buf~cnt(len++) = buf~cnt(0);
                     buf += 1;
                 }
-                result.buf~cnt(len) = 0;
                 buf += 1;
             } else {
                 break;
             }
         }
+        result.buf~cnt(len) = 0;
         return result;
     }
 }
