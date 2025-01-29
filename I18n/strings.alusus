@@ -1,68 +1,20 @@
 @merge module I18n {
-    def strings: Map[String, String];
+    def inStrs: Dictionary;
+    def outStrs: Dictionary;
 
     func initializeStrings(buf: CharsPtr) {
-        strings.clear();
-        parsePo(buf);
+        outStrs.initialize(buf);
     }
 
     func addStrings(buf: CharsPtr) {
-        parsePo(buf);
+        outStrs.add(buf);
     }
 
     func clearStrings() {
-        strings.clear();
+        outStrs.clear();
     }
 
     func string(val: CharsPtr): String {
-        def input: String(val);
-        def res: String = strings(input);
-        if res == "" return input else return res;
-    }
-
-    func parsePo(buf: CharsPtr) {
-        def lastId: String;
-        while buf~cnt(0) != 0 {
-            if String.compare(buf, "msgid", 5) == 0 {
-                buf += 5;
-                lastId = parseString(buf);
-            } else if String.compare(buf, "msgstr", 6) == 0 {
-                buf += 6;
-                strings(lastId) = parseString(buf);
-            } else if buf~cnt(0) == '#' {
-                while buf~cnt(0) != '\n' buf += 1;
-            } else {
-                buf += 1;
-            }
-        }
-       
-    }
-
-    func parseString(buf: ref[CharsPtr]): String {
-        def result: String;
-        def len: ArchInt = 0;
-        while true {
-            while buf~cnt(0) == ' ' or buf~cnt(0) == '\n' or buf~cnt(0) == '\r' or buf~cnt(0) == '\t' buf += 1;
-            if buf~cnt(0) == '"' {
-                buf += 1;
-                def end: CharsPtr = String.find(buf, '\n')~cast[CharsPtr];
-                if end == 0 end = String.find(buf, 0)~cast[CharsPtr];
-                while end~cnt(0) != '"' end -= 1;
-                result.realloc(len + end~cast[ArchInt] - buf~cast[ArchInt]);
-                while buf~cast[ArchInt] < end~cast[ArchInt] {
-                    if buf~cnt(0) == '\\' {
-                        buf += 1;
-                        if buf~cnt(0) == 'n' result.buf~cnt(len++) = '\n'
-                        else result.buf~cnt(len++) = buf~cnt(0);
-                    } else result.buf~cnt(len++) = buf~cnt(0);
-                    buf += 1;
-                }
-                buf += 1;
-            } else {
-                break;
-            }
-        }
-        result.buf~cnt(len) = 0;
-        return result;
+        return outStrs(val);
     }
 }

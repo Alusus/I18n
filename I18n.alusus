@@ -9,6 +9,7 @@ module I18n {
     use Srl;
 }
 
-import "I18n/strings";
 import "I18n/TextAssets";
 import "I18n/isRightToLeft";
+import "I18n/Dictionary";
+import "I18n/strings";
