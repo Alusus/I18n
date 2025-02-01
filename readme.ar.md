@@ -23,74 +23,78 @@ Apm.importFile("Alusus/I18n");
 
 </div>
 
-* هيئ المكتبة من ملف PO:
+* أنشئ كائنا من صنف `قـاموس` (`Dictionary`) ثم هيئه باستخدام ملف PO:
 
 ```
-تـرجمة.هيئ_النصوص(محتوى_po)؛
+عرف قاموس: تـرجمة.قـاموس؛
+قاموس.هيئ(محتوى_po)؛
 ```
 
 <div dir=ltr>
 
 ```
-I18n.initializeStrings(poContent);
+def dict: I18n.Dictionary;
+dict.initialize(poContent);
 ```
 
 </div>
+
+أو، لتهيئة القاموس من ملف:
+
+```
+عرف قاموس: تـرجمة.قـاموس؛
+قاموس.هيئ(مـتم.نـم.اقرأ_ملف("en.po"))؛
+```
+
+<div dir=ltr>
+
+```
+def dict: I18n.Dictionary;
+dict.initialize(Srl.Fs.readFile("lang.po"));
+```
+
+</div>
+
+يمكن أيضًا تحميل النصوص من عدة ملفات PO باستخدام دالة `أضف` (`add`):
+
+```
+قاموس.أضف(محتوى_po)؛
+```
+
+<div dir=ltr>
+
+```
+dict.add(poContent);
+```
+
+</div>
+
 أو
 
-
 ```
-تـرجمة.هيئ_النصوص(مـتم.نـم.اقرأ_ملف("en.po"))؛
+قاموس.أضف(مـتم.نـم.اقرأ_ملف("en.po"))؛
 ```
 
 <div dir=ltr>
 
 ```
-I18n.initializeStrings(Srl.Fs.readFile("lang.po"));
+dict.add(Srl.Fs.readFile("lang.po"));
 ```
 
 </div>
 
-يمكن أيضًا تحميل النصوص من عدة ملفات PO باستخدام دالة `أضف_نصوصا` (`addStrings`):
+ويمكن استخدام دالة `فرغ` (`clear`) لمحو كل النصوص المحملة.
+
+* استبدل القاموس بسلاسل المحارف المضمنة:
 
 ```
-تـرجمة.أضف_نصوصا(محتوى_po)؛
-```
-
-<div dir=ltr>
-
-```
-I18n.addStrings(poContent);
-```
-
-</div>
-
-أو
-
-```
-تـرجمة.أضف_نصوصا(مـتم.نـم.اقرأ_ملف("en.po"))؛
+طـرفية.اطبع(قاموس("نصي المترجم"))؛
 ```
 
 <div dir=ltr>
 
 ```
-I18n.addStrings(Srl.Fs.readFile("lang.po"));
-```
-
-</div>
-
-يمكن استخدام دالة `clearStrings` لمحو كل النصوص المحملة.
-
-* استبدل سلاسل المحارف المضمنة بالدالة `تـرجمة.نص`:
-
-```
-طـرفية.اطبع(تـرجمة.نص("نصي المترجم"))؛
-```
-
-<div dir=ltr>
-
-```
-Console.print(I18n.string("My localized string"));
+Console.print(dict("My localized string"));
 ```
 
 </div>

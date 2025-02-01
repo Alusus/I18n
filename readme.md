@@ -13,36 +13,38 @@ import "Apm";
 Apm.importFile("Alusus/I18n");
 ```
 
-* Initialize the library from PO file:
+* Instantiate a `Dictionary` object and initialize it from a PO file:
 
 ```
-I18n.initializeStrings(poContent);
-```
-
-or
-
-```
-I18n.initializeStrings(Srl.Fs.readFile("lang.po"));
-```
-
-You can also load additional strings from a separate PO file using `addStrings`:
-
-```
-I18n.addStrings(poContent);
+def dict: I18n.Dictionary;
+dict.initialize(poContent);
 ```
 
 or
 
 ```
-I18n.addStrings(Srl.Fs.readFile("lang.po"));
+def dict: I18n.Dictionary;
+dict.initialize(Srl.Fs.readFile("lang.po"));
 ```
 
-You can use the `clearStrings` function to clear all the loaded strings.
-
-* Replace the hardcoded strings with `I18n.string`:
+You can also load additional strings from a separate PO file using `add`:
 
 ```
-Console.print(I18n.string("My localized string"));
+dict.add(poContent);
+```
+
+or
+
+```
+dict.add(Srl.Fs.readFile("lang.po"));
+```
+
+You can use the `clear` function to clear all the loaded strings.
+
+* Replace the hardcoded strings with the dictionary:
+
+```
+Console.print(dict("My localized string"));
 ```
 
 ## Determining Language Direction

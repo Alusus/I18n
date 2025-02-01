@@ -1,0 +1,10 @@
+import "Srl/Fs";
+import "Apm";
+Apm.importFile("Alusus/I18n");
+
+use Srl;
+
+def dict: I18n.Dictionary;
+dict.initialize(Fs.readFile("ar.po"));
+
+Console.print("%s\n", dict("String 1").buf);

@@ -1,0 +1,2 @@
+msgid "النص 1"
+msgstr "String 1"
