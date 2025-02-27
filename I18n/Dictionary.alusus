@@ -1,6 +1,6 @@
 @merge module I18n {
     class Dictionary {
-        def data: Map[String, String];
+        def data: Map[String, String](true);
 
         handler this~init() {}
 
