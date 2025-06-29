@@ -58,20 +58,31 @@ I18n.isRightToLeft(String("ar_EG")) // returns true
 I18n.isRightToLeft(String("en")) // returns false
 ```
 
-## TextAssets class
+## TextAssets Class
 
 This class enables you to load text files in multiple languages from a folder and automatically
 organize them as a class containing a text property for each of these files. It then loads them
 for you automatically, categorized by languages according to the available folders. This class
-takes two parameters: one is the path to the text resources folder, and the other is the default
-language code. It expects the text resources folder to contain a subfolder for each language with
+takes four parameters:
+1. string: The path to the text resources folder.
+2. string: The default language code.
+3. type: The type of the variables to hold the loaded data. This defaults to `String`.
+4. function: An initializer string to be used to initialize the variables. The default value
+   for this variable is a function that loads the data during compilation and embeds them into
+   the generated executable.
+This class expects the text resources folder to contain a subfolder for each language with
 the language code as the folder name. Inside each of these subfolders, the text files with the same
 names for all languages are placed. The class will define a variable for each of these files, named
 after the file but without the extension.
 
+```
+class TextAssets [path: string, defaultLangCode: string, DataType: type, varInitializer: func]
+```
+
 **Note:**
-This class will load all resources for all languages during compilation rather than during
-execution, allowing it to be used for translating user interfaces in web applications.
+By default, this class will load all resources for all languages during compilation rather than
+during execution, allowing it to be used for translating user interfaces in web applications,
+but this behaviour can be overridden by the user as shown below.
 
 For example, if you have the following folder:
 
@@ -94,9 +105,10 @@ of type String: file1, file2, and strings.
 To initialize and use this class:
 
 ```
-I18n.TextAssets["./text_assets", "en"].initialize();
-I18n.TextAssets["./text_assets", "en"].setCurrentLanguage(currentLang);
-def strings: String = I18n.TextAssets["./text_assets", "en"].current.strings;
+def textAssets: I18n.TextAssets["./text_assets", "en"];
+textAssets.initialize();
+textAssets.setCurrentLanguage(currentLang);
+def strings: String = textAssets.current.strings;
 I18n.initializeStrings(strings);
 Console.print("%s\n", I18n.string("string example"));
 ```
@@ -117,4 +129,31 @@ returned array.
 func getAvailableLanguages(): Array[String];
 ```
 
+### Overriding Data Initialization
+
+Notice that in the examples above we didn't provide a value for the third template argument, which
+is `varInitialzier`. This is because this argument has a default value which embeds the data in
+the generated executable. The user can provide a different initializer if needed. For example, the
+user can provide an initializer that loads the data at run time instead of having it embedded in
+the executable. This function has the following definition:
+
+```
+func varInitializer(varName: String, path: String, dir: String, filename: String): SrdRef[TiObject];
+```
+
+All this function needs to do is return an AST that initializes the variable with the given
+name. The function receives the following arguments:
+* `varName`; The name of the argument being initialized.
+* `path`: The path to the root folder where the assets are located.
+* `dir`: The name of the sub-folder holding the data for the language currently being initialized.
+* `filename`: The name of the content file corresponding to the var being initialized.
+
+### TextAssetsInstance Class
+
+This class carries the data for a single language. The `TextAssets` class carries a group
+of objects of this class, one for each language.
+
+```
+class TextAssetsInstance [path: string, defaultLangCode: string, DataType: type]
+```
 
