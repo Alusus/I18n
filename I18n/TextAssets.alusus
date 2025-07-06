@@ -1,66 +1,58 @@
 @merge module I18n {
-    class TextAssets [path: string, defaultLangCode: string] {
-        @shared def data: Map[String, SrdRef[this_type]];
-        @shared def current: SrdRef[this_type];
-        @shared def currentLanguage: String;
+    use Core.Basic;
+    use Core.Data;
+    def AstTemplateMap: alias Map[String, ref[TiObject]];
+
+    class TextAssets [
+        path: string,
+        defaultLangCode: string,
+        DataType: type = Srl.String,
+        varInitializer: function = generateTextAssetsEmbeddedVarInitialization
+    ] {
+        def Instance: alias TextAssetsInstance[path, defaultLangCode, DataType];
+
+        def instances: Map[String, SrdRef[Instance]];
+        def current: SrdRef[Instance];
+        def currentLanguage: String;
 
         handler this~init() {}
 
-        def AstTemplateMap: alias Map[String, ref[Core.Basic.TiObject]];
-
-        // Define member variables.
-        preprocess {
-            def filenames: ptr[Fs.FileNames] = Fs.readDir(String(path) + "/" + defaultLangCode);
-            def i: Int;
-            for i = 0, i < filenames~cnt.count, ++i {
-                if filenames~cnt.names(i)(0) == '.' continue; // Skip . and .. and hidden files.
-                def name: String = String(filenames~cnt.names(i)~ptr).split(".")(0);
-                Spp.astMgr.insertAst(
-                    (ast def name: String),
-                    AstTemplateMap().set(String("name"), Core.Basic.TiStr(name))
-                );
-            }
-        }
-
-        func initialize() {
-            def d: SrdRef[this_type];
-
+        handler this.initialize() {
             // Populate the map for all available locales.
             preprocess {
                 def dirs: ptr[Fs.FileNames] = Fs.readDir(path);
                 def i: Int;
                 for i = 0, i < dirs~cnt.count, ++i {
                     if dirs~cnt.names(i)(0) == '.' continue; // Skip . and .. and hidden files.
-                    Spp.astMgr.insertAst(ast d = SrdRef[this_type].construct());
 
+                    def initializations: SrdRef[Ast.List] = newSrdObj[Ast.List];
+                    def initializationsContainer: DynContainerOf[initializations.obj];
                     def filenames: ptr[Fs.FileNames] = Fs.readDir(String(path) + "/" + dirs~cnt.names(i)~ptr);
                     def j: Int;
                     for j = 0, j < filenames~cnt.count, ++j {
-                        if filenames~cnt.names(j)(0) == '.' continue; // Skip . and .. and hidden files.
-                        def content: String = Fs.readFile(
-                            String(path) + "/" + dirs~cnt.names(i)~ptr + "/" + filenames~cnt.names(j)~ptr
-                        );
-                        def varName: String = String(filenames~cnt.names(j)~ptr).split(".")(0);
-                        Spp.astMgr.insertAst(
-                            (ast d.varName = varData),
-                            AstTemplateMap()
-                                .set(String("varName"), Core.Data.Ast.Identifier(varName))
-                                .set(String("varData"), Core.Data.Ast.StringLiteral(content))
-                        );
+                        def filename: String = String(1, filenames~cnt.names(j)~ptr);
+                        if filename(0) == '.' continue; // Skip . and .. and hidden files.
+                        def dir: String = String(1, dirs~cnt.names(i)~ptr);
+                        def varName: String = filename.split(".")(0);
+                        initializationsContainer.addElement(varInitializer(varName, String(1, path), dir, filename));
                     }
 
                     Spp.astMgr.insertAst(
-                        (ast data.set(String(lang), d)),
-                        AstTemplateMap().set(String("lang"), Core.Basic.TiStr(String(dirs~cnt.names(i)~ptr)))
+                        (ast this.instances.set(String(lang), SrdRef[Instance].construct().{
+                            initializations
+                        })),
+                        AstTemplateMap()
+                            .set(String("lang"), Core.Basic.TiStr(String(dirs~cnt.names(i)~ptr)))
+                            .set(String("initializations"), initializations)
                     );
                 }
             }
 
-            setCurrentLanguage(String(defaultLangCode));
+            this.setCurrentLanguage(String(defaultLangCode));
         }
 
-        func getAvailableLanguages(): Array[String] {
-            def langs: Array[String] = data.keys;
+        handler this.getAvailableLanguages(): Array[String] {
+            def langs: Array[String] = this.instances.keys;
             // Bring the default language to the front.
             def i: Int;
             for i = 0, i < langs.getLength(), ++i {
@@ -73,10 +65,40 @@
             return langs;
         }
 
-        func setCurrentLanguage(langCode: String) {
-            if data(langCode).isNull() langCode = defaultLangCode;
-            current = data(langCode);
-            currentLanguage = langCode;
+        handler this.setCurrentLanguage(langCode: String) {
+            if this.instances(langCode).isNull() langCode = defaultLangCode;
+            this.current = this.instances(langCode);
+            this.currentLanguage = langCode;
         }
+    }
+
+    class TextAssetsInstance [path: string, defaultLangCode: string, DataType: type = Srl.String] {
+        handler this~init() {}
+
+        // Define member variables.
+        preprocess {
+            def filenames: ptr[Fs.FileNames] = Fs.readDir(String(path) + "/" + defaultLangCode);
+            def i: Int;
+            for i = 0, i < filenames~cnt.count, ++i {
+                if filenames~cnt.names(i)(0) == '.' continue; // Skip . and .. and hidden files.
+                def name: String = String(filenames~cnt.names(i)~ptr).split(".")(0);
+                Spp.astMgr.insertAst(
+                    (ast def name: DataType),
+                    AstTemplateMap().set(String("name"), Core.Basic.TiStr(name))
+                );
+            }
+        }
+    }
+
+    func generateTextAssetsEmbeddedVarInitialization(
+        varName: String, path: String, dir: String, filename: String
+    ): SrdRef[TiObject] {
+        def content: String = Fs.readFile(path + "/" + dir + "/" + filename);
+        return Spp.astMgr.buildAst(
+            (ast varName = String(1, varData)),
+            AstTemplateMap()
+                .set(String("varName"), Ast.Identifier(varName))
+                .set(String("varData"), Ast.StringLiteral(content))
+        );
     }
 }

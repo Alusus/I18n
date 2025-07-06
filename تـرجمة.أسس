@@ -21,10 +21,13 @@
 
     عرف مـوارد_نصية: لقب TextAssets؛
     @دمج صنف مـوارد_نصية {
+        عرف النماذج: لقب instances؛
+        عرف الحالي: لقب current؛
+        عرف اللغة_الحالية: لقب currentLanguage؛
         عرف هيئ: لقب initialize؛
         عرف هات_اللغات_المتوفرة: لقب getAvailableLanguages؛
         عرف حدد_اللغة_الحالية: لقب setCurrentLanguage؛
-        عرف الحالي: لقب current؛
-        عرف اللغة_الحالية: لقب currentLanguage؛
     }
+
+    عرف نـموذج_موارد_نصية: لقب TextAssetsInstance؛
 }
