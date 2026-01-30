@@ -1,5 +1,5 @@
 # I18n
-[[عربي]](readme.ar.md)
+[[عربي]](README.ar.md)
 
 Internationalization functionality for Alusus Language. This library can load translations from PO
 files.
@@ -156,4 +156,10 @@ of objects of this class, one for each language.
 ```
 class TextAssetsInstance [path: string, defaultLangCode: string, DataType: type]
 ```
+
+---
+
+## License
+
+This project is licensed under the GNU Lesser General Public License v3.0 (LGPL-3.0). See the `COPYING` and `COPYING.LESSER` files for details.
 

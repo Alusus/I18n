@@ -1,7 +1,7 @@
 <div dir=rtl>
 
 # I18n
-[[English]](readme.md)
+[[English]](README.md)
 
 مكتبة لتمكين ترجمة النصوص المستخدمة في واجهات المستخدم. هذه المكتبة تحمل الترجمات من ملفات PO.
 
@@ -258,6 +258,12 @@ class TextAssetsInstance [path: string, defaultLangCode: string, DataType: type]
 ```
 
 </div>
+
+---
+
+## الرخصة
+
+هذا المشروع مرخص بموجب رخصة غنو العمومية الصغرى الإصدار 3.0 (LGPL-3.0). راجع ملفات `COPYING` و `COPYING.LESSER` للحصول على التفاصيل.
 
 </div>
 
