@@ -1,6 +1,6 @@
 import "Srl/Fs";
 import "Apm";
-Apm.importFile("Alusus/I18n");
+Apm.importPackage("Alusus/I18n@0.3");
 
 use Srl;
 
