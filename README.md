@@ -119,7 +119,7 @@ translations. For instance, if you call the `setCurrentLanguage` function with a
 that isn't available in the translations, the class will choose the default language instead of
 selecting a language with no translation.
 
-### TextAssets.getAvailableLanguages
+### getAvailableLanguages
 
 This function returns a list of available languages. The `initialize` function must be called before
 invoking this function. It ensures that the default language is placed at the beginning of the
