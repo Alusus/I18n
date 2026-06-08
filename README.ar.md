@@ -1,6 +1,5 @@
-<div dir=rtl>
-
 # I18n
+
 [[English]](README.md)
 
 مكتبة لتمكين ترجمة النصوص المستخدمة في واجهات المستخدم. هذه المكتبة تحمل الترجمات من ملفات PO.
@@ -9,99 +8,101 @@
 
 * أضف المكتبة إلى المشروع باستخدام مدير حزم الأسس:
 
+<div dir=rtl>
+
 ```
 اشمل "مـحا"؛
 مـحا.اشمل_ملف("Alusus/I18n"، "تـرجمة.أسس")؛
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 import "Apm";
 Apm.importFile("Alusus/I18n");
 ```
 
-</div>
-
 * أنشئ كائنا من صنف `قـاموس` (`Dictionary`) ثم هيئه باستخدام ملف PO:
+
+<div dir=rtl>
 
 ```
 عرف قاموس: تـرجمة.قـاموس؛
 قاموس.هيئ(محتوى_po)؛
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 def dict: I18n.Dictionary;
 dict.initialize(poContent);
 ```
 
-</div>
-
 أو، لتهيئة القاموس من ملف:
+
+<div dir=rtl>
 
 ```
 عرف قاموس: تـرجمة.قـاموس؛
 قاموس.هيئ(مـتم.نـم.اقرأ_ملف("en.po"))؛
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 def dict: I18n.Dictionary;
 dict.initialize(Srl.Fs.readFile("lang.po"));
 ```
 
-</div>
-
 يمكن أيضًا تحميل النصوص من عدة ملفات PO باستخدام دالة `أضف` (`add`):
+
+<div dir=rtl>
 
 ```
 قاموس.أضف(محتوى_po)؛
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 dict.add(poContent);
 ```
 
-</div>
-
 أو
+
+<div dir=rtl>
 
 ```
 قاموس.أضف(مـتم.نـم.اقرأ_ملف("en.po"))؛
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 dict.add(Srl.Fs.readFile("lang.po"));
 ```
 
-</div>
-
 ويمكن استخدام دالة `فرغ` (`clear`) لمحو كل النصوص المحملة.
 
 * استبدل القاموس بسلاسل المحارف المضمنة:
+
+<div dir=rtl>
 
 ```
 طـرفية.اطبع(قاموس("نصي المترجم"))؛
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 Console.print(dict("My localized string"));
 ```
 
-</div>
-
 ## معرفة اتجاه اللغة
 
 لمعرفة اتجاه اللغة، اي معرفة إن كانت تكتب من اليمين أو اليسار، نستخدم دالة `هل_اللغة_يمينية` (`isRightToLeft`):
+
+<div dir=rtl>
 
 ```
 تـرجمة.هل_اللغة_يمينية(نـص("ar")) // ترجع 1
@@ -109,15 +110,13 @@ Console.print(dict("My localized string"));
 تـرجمة.هل_اللغة_يمينية(نـص("en")) // ترجع 0
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 I18n.isRightToLeft(String("ar")) // returns true
 I18n.isRightToLeft(String("ar_EG")) // returns true
 I18n.isRightToLeft(String("en")) // returns false
 ```
-
-</div>
 
 ## صنف مـوارد_نصية (TextAssets)
 
@@ -132,25 +131,23 @@ I18n.isRightToLeft(String("en")) // returns false
 المجلدات توضع الملفات النصية بنفس الأسماء لكل اللغات. سيعرف الصنف متغيرا لكل من هذه الملفات وسيَحمل
 المتغير اسم الملف بدون الامتداد.
 
+<div dir=rtl>
+
 ```
 صنف مـوارد_نصية [المسار: نص، رمز_اللغة_المبدئية: نص، صـنف_البيانات: صنف، مهيئ_المتغيرات: دالة]
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 class TextAssets [path: string, defaultLangCode: string, DataType: type, varInitializer: func]
 ```
-
-</div>
 
 **ملاحظة:**
 مبدئيا، هذا الصنف سيحمل الموارد كلها ولكل اللغات أثناء الترجمة وليس أثناء التنفيذ، ما يتيح استخدامه
 لترجمة واجهات المستخدم في تطيبقات الويب، لكنه يتيح أيضًا تغيير أسلوب التهيئة كما هو مبين لاحقًا.
 
 على سبيل المثال، إذا كان لديك المجلد التالي:
-
-<div dir=ltr>
 
 ```
 assets/
@@ -164,13 +161,14 @@ assets/
     strings.po
 ```
 
-</div>
 
 فبعد تهيئة الصنف سيكون لديك صنف يحتوي على `تـطبيق` (`Map`) فيه مفتاحين: ar و en، ولكل مفتاح نموذج من
 الصنف. والصنف في هذه الحالة سيحتوي على ثلاثة متغيرات من صنف `نـص` (`String`) وهي: file1 و file2
 و strings.
 
 لتهيئة واستخدام الصنف:
+
+<div dir=rtl>
 
 ```
 عرف موارد_نصية: تـرجمة.مـوارد_نصية["./الموارد_النصية"، "ar"]؛
@@ -181,7 +179,7 @@ assets/
 طـرفية.اطبع("%s\ج"، تـرجمة.نص("مثال نصي"))؛
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 def textAssets: I18n.TextAssets["./text_assets", "en"];
@@ -191,8 +189,6 @@ def strings: String = textAssets.current.strings;
 I18n.initializeStrings(strings);
 Console.print("%s\n", I18n.string("string example"));
 ```
-
-</div>
 
 يمكن الوصول إلى رمز اللغة الحالية باستخدام المتغير `اللغة_الحالية` (`currentLanguage`). يفضل الاعتماد
 على هذا المتغير لأنه يضمن عدم استخدام لغة غير متوفرة ضمن الترجمات الحالية. مثلا، لو استدعيت دالة
@@ -204,17 +200,17 @@ Console.print("%s\n", I18n.string("string example"));
 ترجع هذه الدالة قائمة باللغات المتوفرة. يجب أن تُستدعى دالة `هيئ` (`initialize`) قبل استدعاء هذه
 الدالة. تحرص هذه الدالة على وضع اللغة المبدئية في مقدمة المصفوفة المرجعة.
 
+<div dir=rtl>
+
 ```
 دالة هات_اللغات_المتوفرة(): مـصفوفة[نـص]؛
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 func getAvailableLanguages(): Array[String];
 ```
-
-</div>
 
 ### التحكم بأسلوب تهيئة البيانات
 
@@ -223,17 +219,17 @@ func getAvailableLanguages(): Array[String];
 توفير دالة مختلفة تعمل على تهيئة المتغيرات بطريقة مختلفة، كأن تحمل البيانات أثناء التنفيذ بدل
 تضمينها في البرنامج التنفيذي. لهذه الدالة الصيغة التالية:
 
+<div dir=rtl>
+
 ```
 دالة مهيئة_المتغيرات(اسم_المتغير: نـص، المسار: نـص، المجلد: نـص، اسم_الملف: نـص): سـندنا[كـائن_بهوية]؛
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 func varInitializer(varName: String, path: String, dir: String, filename: String): SrdRef[TiObject];
 ```
-
-</div>
 
 كل ما تحتاج هذه الدالة لفعله هو إرجاع عبارة ش.ب.م (AST) تهيئ المتغير ذي الاسم المعطى.
 تستلم الدالة المعطيات التالية:
@@ -247,23 +243,18 @@ func varInitializer(varName: String, path: String, dir: String, filename: String
 هذا الصنف هو الصنف الذي يحمل الموارد النصية للغة محددة. الصنف `مـوارد_نصية` (`TextAssets`) يحمل مجموعة
 من كائنات هذا الصنف، واحد لكل لغة.
 
+<div dir=rtl>
+
 ```
 صنف نـموذج_موارد_نصية [المسار: نص، رمز_اللغة_المبدئية: نص، صـنف_البيانات: صنف]
 ```
 
-<div dir=ltr>
+</div>
 
 ```
 class TextAssetsInstance [path: string, defaultLangCode: string, DataType: type]
 ```
 
-</div>
-
----
-
 ## الرخصة
 
 هذا المشروع مرخص بموجب رخصة غنو العمومية الصغرى الإصدار 3.0 (LGPL-3.0). راجع ملفات `COPYING` و `COPYING.LESSER` للحصول على التفاصيل.
-
-</div>
-
