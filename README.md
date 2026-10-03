@@ -138,7 +138,7 @@ user can provide an initializer that loads the data at run time instead of havin
 the executable. This function has the following definition:
 
 ```
-func varInitializer(varName: String, path: String, dir: String, filename: String): SrdRef[TiObject];
+func varInitializer(varName: String, path: String, dir: String, filename: String): SrdRef[Core.Ast.Node];
 ```
 
 All this function needs to do is return an AST that initializes the variable with the given

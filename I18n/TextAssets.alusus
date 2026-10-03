@@ -18,9 +18,9 @@
  */
 
 @merge module I18n {
+    use Core;
     use Core.Basic;
-    use Core.Data;
-    def AstTemplateMap: alias Map[String, ref[TiObject]];
+    def AstTemplateMap: alias Map[String, ref[Ast.Node]];
 
     class TextAssets [
         path: string,
@@ -45,7 +45,7 @@
                     if dirs~cnt.names(i)(0) == '.' continue; // Skip . and .. and hidden files.
 
                     def initializations: SrdRef[Ast.List] = newSrdObj[Ast.List];
-                    def initializationsContainer: DynContainerOf[initializations.obj];
+                    def initializationsContainer: DynContainerOf[initializations.obj, Ast.Node];
                     def filenames: ptr[Fs.FileNames] = Fs.readDir(String(path) + "/" + dirs~cnt.names(i)~ptr);
                     def j: Int;
                     for j = 0, j < filenames~cnt.count, ++j {
@@ -61,7 +61,7 @@
                             initializations
                         })),
                         AstTemplateMap()
-                            .set(String("lang"), Core.Basic.TiStr(String(dirs~cnt.names(i)~ptr)))
+                            .set(String("lang"), Ast.StringLiteral(String(dirs~cnt.names(i)~ptr)))
                             .set(String("initializations"), initializations)
                     );
                 }
@@ -103,7 +103,7 @@
                 def name: String = String(filenames~cnt.names(i)~ptr).split(".")(0);
                 Spp.astMgr.insertAst(
                     (ast def name: DataType),
-                    AstTemplateMap().set(String("name"), Core.Basic.TiStr(name))
+                    AstTemplateMap().set(String("name"), Ast.StringLiteral(name))
                 );
             }
         }
@@ -111,7 +111,7 @@
 
     func generateTextAssetsEmbeddedVarInitialization(
         varName: String, path: String, dir: String, filename: String
-    ): SrdRef[TiObject] {
+    ): SrdRef[Ast.Node] {
         def content: String = Fs.readFile(path + "/" + dir + "/" + filename);
         return Spp.astMgr.buildAst(
             (ast varName = String(1, varData)),

@@ -224,13 +224,13 @@ func getAvailableLanguages(): Array[String];
 تضمينها في البرنامج التنفيذي. لهذه الدالة الصيغة التالية:
 
 ```
-دالة مهيئة_المتغيرات(اسم_المتغير: نـص، المسار: نـص، المجلد: نـص، اسم_الملف: نـص): سـندنا[كـائن_بهوية]؛
+دالة مهيئة_المتغيرات(اسم_المتغير: نـص، المسار: نـص، المجلد: نـص، اسم_الملف: نـص): سـندنا[الـقلب.شـبم.عـقدة]؛
 ```
 
 <div dir=ltr>
 
 ```
-func varInitializer(varName: String, path: String, dir: String, filename: String): SrdRef[TiObject];
+func varInitializer(varName: String, path: String, dir: String, filename: String): SrdRef[Core.Ast.Node];
 ```
 
 </div>

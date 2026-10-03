@@ -22,7 +22,7 @@ import "Srl/Array";
 import "Srl/refs";
 import "Spp";
 import "Core/Basic";
-import "Core/Data";
+import "Core/Ast";
 
 module I18n {
     use Srl;
