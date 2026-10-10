@@ -11,14 +11,14 @@
 
 ```
 اشمل "مـحا"؛
-مـحا.اشمل_ملف("Alusus/I18n"، "تـرجمة.أسس")؛
+مـحا.اشمل_حزمة("Alusus/I18n@0.4"، "تـرجمة.أسس")؛
 ```
 
 <div dir=ltr>
 
 ```
 import "Apm";
-Apm.importFile("Alusus/I18n");
+Apm.importFile("Alusus/I18n@0.4");
 ```
 
 </div>

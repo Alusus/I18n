@@ -10,7 +10,7 @@ files.
 
 ```
 import "Apm";
-Apm.importFile("Alusus/I18n");
+Apm.importFile("Alusus/I18n@0.4");
 ```
 
 * Instantiate a `Dictionary` object and initialize it from a PO file:
